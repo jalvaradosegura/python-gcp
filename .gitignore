@@ -1,0 +1,4 @@
+docker-compose.yml
+db.sqlite3
+*.pyc
+__pycache__/
