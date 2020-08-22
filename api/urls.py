@@ -1,6 +1,13 @@
 from django.urls import path
 
-from .views import DrugList, DrugDetail, DrugPost, DrugPutDelete
+from .views import (
+    DrugList,
+    DrugDetail,
+    DrugPost,
+    DrugPutDelete,
+    VaccinationListCreate,
+    VaccinationDetailPutDelete
+)
 
 urlpatterns = [
     path(
@@ -18,5 +25,13 @@ urlpatterns = [
     path(
         route='drug/<int:id>/',
         view=DrugPutDelete.as_view(),
+    ),
+    path(
+        route='vaccination/',
+        view=VaccinationListCreate.as_view(),
+    ),
+    path(
+        route='vaccination/<int:id>/',
+        view=VaccinationDetailPutDelete.as_view(),
     ),
 ]

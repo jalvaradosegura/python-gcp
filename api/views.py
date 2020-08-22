@@ -1,8 +1,8 @@
 from rest_framework import generics, status
 from rest_framework.parsers import JSONParser
 
-from .models import Drug
-from .serializers import DrugSerializer
+from .models import Drug, Vaccination
+from .serializers import DrugSerializer, VaccinationSerializer
 from .custom_exception import CustomValidation
 
 
@@ -38,3 +38,15 @@ class DrugPutDelete(generics.RetrieveUpdateDestroyAPIView):
                     status_code=status.HTTP_400_BAD_REQUEST
                 )
         return obj
+
+
+class VaccinationListCreate(generics.ListCreateAPIView):
+    queryset = Vaccination.objects.all()
+    serializer_class = VaccinationSerializer
+
+
+class VaccinationDetailPutDelete(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Vaccination.objects.all()
+    serializer_class = VaccinationSerializer
+    lookup_field = 'id'
+    parser_classes = [JSONParser]
