@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Vaccination, Drug
+
+admin.site.register(Vaccination)
+admin.site.register(Drug)
