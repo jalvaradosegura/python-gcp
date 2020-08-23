@@ -76,6 +76,7 @@ class VaccinationListCreate(generics.ListCreateAPIView):
         validate_jwt_token(self.request)
         return super().create(request, *args, **kwargs)
 
+
 class VaccinationDetailPutDelete(generics.RetrieveUpdateDestroyAPIView):
     queryset = Vaccination.objects.all()
     serializer_class = VaccinationSerializer
@@ -86,8 +87,10 @@ class VaccinationDetailPutDelete(generics.RetrieveUpdateDestroyAPIView):
         validate_jwt_token(self.request)
         return super().get(request, *args, **kwargs)
 
+
 class GetToken(generics.GenericAPIView):
     def get(self, request):
-        print(self.request.META.get('HTTP_AUTHORIZATION', ''))
-        token = jwt.encode({'some': str(uuid.uuid4())}, 'secret', algorithm='HS256')
+        token = jwt.encode(
+            {'some': str(uuid.uuid4())}, 'secret', algorithm='HS256'
+        )
         return Response({'token': token}, status.HTTP_200_OK)

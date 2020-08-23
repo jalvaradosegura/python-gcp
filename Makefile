@@ -20,6 +20,7 @@ up:
 down:
 	docker-compose down
 test:
-	docker-compose exec web python manage.py test
+	docker-compose exec web coverage run --source='.' manage.py test api
+	docker-compose exec web coverage report
 logs:
 	docker-compose logs
