@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
+import sys
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,12 +24,18 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
-ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
-if ALLOWED_HOSTS_ENV:
-    ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
+if os.environ.get('DEBUG') == '1':
+    DEBUG = True
+    ALLOWED_HOSTS = []
+    ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
+    if ALLOWED_HOSTS_ENV:
+        ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
+else:
+    DEBUG = False
+    ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
+    ALLOWED_HOSTS += ALLOWED_HOSTS_ENV.split(',')
+    # Note: Need to at the rest of the configurations for this to work
 
 # Application definition
 
@@ -82,24 +89,24 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('DB-HOST'),
-        'USER': os.environ.get('DB-USER'),
-        'PASSWORD': os.environ.get('DB-PASSWORD'),
-        'HOST': os.environ.get('DB-HOST'),
-        'PORT': os.environ.get('DB-PORT'),
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
-
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.environ.get('DB-HOST'),
+            'USER': os.environ.get('DB-USER'),
+            'PASSWORD': os.environ.get('DB-PASSWORD'),
+            'HOST': os.environ.get('DB-HOST'),
+            'PORT': os.environ.get('DB-PORT'),
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
