@@ -1,5 +1,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/jalvaradosegura/python-gcp/badge.svg?branch=master)](https://coveralls.io/github/jalvaradosegura/python-gcp?branch=master)
 # API for Vaccinations and Drugs 💉
+![Example](https://media.giphy.com/media/lRWvlY3ARQRBgfiGTm/giphy.gif)
+![alt text](https://i.imgur.com/NQooAFy.png)
 
 # Overview 👀
 * API to get, put, delete and post vaccinations and drugs
