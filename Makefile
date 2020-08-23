@@ -7,3 +7,5 @@ help:
 	@echo "	Run the tests for this project"
 test:
 	docker-compose exec web python manage.py test
+logs:
+	docker-compose logs

@@ -1,10 +1,16 @@
+import os
+
 from django.test import TestCase
 
-from rest_framework.test import APITestCase, APIRequestFactory
+from rest_framework.test import APITestCase
 from rest_framework import status
 
 from ..models import Drug, Vaccination
-from ..serializers import DrugSerializer
+
+token = os.environ.get('TOKEN_TESTING')
+AUTH_HEADERS = {
+    'HTTP_AUTHORIZATION': token
+}
 
 
 class DrugModelTests(TestCase):
@@ -50,15 +56,15 @@ class DrugEndPointsTests(APITestCase):
         )
 
     def test_drug_list_endpoint(self):
-        response = self.client.get('/drugs/')
+        response = self.client.get('/drugs/', **AUTH_HEADERS)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_drug_detail_endpoint_with_drug_that_does_exists(self):
-        response = self.client.get('/drugs/1/')
+        response = self.client.get('/drugs/1/', **AUTH_HEADERS)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_drug_detail_endpoint_with_drug_that_does_not_exists(self):
-        response = self.client.get('/drugs/2/')
+        response = self.client.get('/drugs/2/', **AUTH_HEADERS)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_drug_post_endpoint(self):
@@ -67,7 +73,7 @@ class DrugEndPointsTests(APITestCase):
             'code': 'COVID19',
             'description': 'This will save the world'
         }
-        response = self.client.post('/drug/', data, format='json')
+        response = self.client.post('/drug/', data, **AUTH_HEADERS, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_drug_post_endpoint_with_bad_data(self):
@@ -76,7 +82,7 @@ class DrugEndPointsTests(APITestCase):
             'code': 'This is a very long code',
             'description': 'This will save the world'
         }
-        response = self.client.post('/drug/', data, format='json')
+        response = self.client.post('/drug/', data, **AUTH_HEADERS, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_drug_put_endpoint(self):
@@ -85,7 +91,7 @@ class DrugEndPointsTests(APITestCase):
             'code': 'test code',
             'description': 'This will save the world'
         }
-        response = self.client.put('/drug/1/', data, format='json')
+        response = self.client.put('/drug/1/', data, **AUTH_HEADERS, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_drug_put_endpoint_drug_does_not_exist(self):
@@ -94,15 +100,15 @@ class DrugEndPointsTests(APITestCase):
             'code': 'test code',
             'description': 'This will save the world'
         }
-        response = self.client.put('/drug/2/', data, format='json')
+        response = self.client.put('/drug/2/', data, **AUTH_HEADERS, format='json')
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_drug_delete_endpoint(self):
-        response = self.client.delete('/drug/1/')
+        response = self.client.delete('/drug/1/', **AUTH_HEADERS)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_drug_delete_endpoint_drug_does_not_exist(self):
-        response = self.client.delete('/drug/2/')
+        response = self.client.delete('/drug/2/', **AUTH_HEADERS)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_drug_delete_endpoint_drug_with_vaccinations(self):
@@ -111,7 +117,7 @@ class DrugEndPointsTests(APITestCase):
             dose=0.5,
             drug=self.drug
         )
-        response = self.client.delete('/drug/1/')
+        response = self.client.delete('/drug/1/', **AUTH_HEADERS)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
@@ -129,15 +135,15 @@ class VaccinationEndPointsTests(APITestCase):
         )
 
     def test_vaccination_list_endpoint(self):
-        response = self.client.get('/vaccination/')
+        response = self.client.get('/vaccination/', **AUTH_HEADERS)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_vaccination_detail_endpoint_vaccination_exists(self):
-        response = self.client.get('/vaccination/1/')
+        response = self.client.get('/vaccination/1/', **AUTH_HEADERS)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_vaccination_detail_endpoint_vaccination_doesnt_exists(self):
-        response = self.client.get('/vaccination/2/')
+        response = self.client.get('/vaccination/2/', **AUTH_HEADERS)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_vaccination_post_endpoint(self):
@@ -146,7 +152,7 @@ class VaccinationEndPointsTests(APITestCase):
             'dose': 1,
             'drug': 1
         }
-        response = self.client.post('/vaccination/', data, format='json')
+        response = self.client.post('/vaccination/', data, **AUTH_HEADERS, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_vaccination_post_endpoint_dose_bigger_to_the_allowed(self):
@@ -155,7 +161,7 @@ class VaccinationEndPointsTests(APITestCase):
             'dose': 2,
             'drug': 1
         }
-        response = self.client.post('/vaccination/', data, format='json')
+        response = self.client.post('/vaccination/', data, **AUTH_HEADERS, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_vaccination_post_endpoint_dose_smaller_to_the_allowed(self):
@@ -164,7 +170,7 @@ class VaccinationEndPointsTests(APITestCase):
             'dose': 0.1,
             'drug': 1
         }
-        response = self.client.post('/vaccination/', data, format='json')
+        response = self.client.post('/vaccination/', data, **AUTH_HEADERS, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_vaccination_put_endpoint(self):
@@ -214,7 +220,5 @@ class VaccinationEndPointsTests(APITestCase):
             'dose': 1,
             'drug': 1
         }
-        response = self.client.post('/vaccination/', data, format='json')
+        response = self.client.post('/vaccination/', data, **AUTH_HEADERS, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
-    # TODO: Implement test for content type, it has to return status 500

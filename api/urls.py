@@ -6,7 +6,8 @@ from .views import (
     DrugPost,
     DrugPutDelete,
     VaccinationListCreate,
-    VaccinationDetailPutDelete
+    VaccinationDetailPutDelete,
+    GetToken
 )
 
 urlpatterns = [
@@ -33,5 +34,9 @@ urlpatterns = [
     path(
         route='vaccination/<int:id>/',
         view=VaccinationDetailPutDelete.as_view(),
+    ),
+    path(
+        route='token/',
+        view=GetToken.as_view(),
     ),
 ]
