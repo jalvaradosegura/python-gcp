@@ -23,6 +23,3 @@ cd python-gcp/
 
 # Execute containers
 sudo docker-compose up -d --build
-
-# Migrate the database
-sudo docker-compose exec web python manage.py migrate
