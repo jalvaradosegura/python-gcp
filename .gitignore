@@ -5,5 +5,6 @@ __pycache__/
 .coverage
 .coveralls.yml
 .env
-docker-compose-yml.backup
+docker-compose-yml.backup_with_env
 docker-compose-yml.backup2
+htmlcov
