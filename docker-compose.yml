@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+    web:
+        build: .
+        command: python /code/manage.py runserver 0.0.0.0:8000
+        environment:
+            - "SECRET_KEY=${SECRET_KEY}"
+            - "DEBUG=${DEBUG}"
+            - "TOKEN_TESTING=${TOKEN_TESTING}"
+            - "COVERALLS_REPO_TOKEN=${COVERALLS_REPO_TOKEN}"
+            - "DB-HOST=${DB_HOST}"
+            - "DB-USER=${DB_USER}"
+            - "DB-PASSWORD=${DB_PASSWORD}"
+            - "DB-PORT=${DB_PORT}"
+            - "ALLOWED_HOSTS=${ALLOWED_HOSTS}"
+        volumes:
+            - .:/code
+        ports:
+            - 8000:8000
+        depends_on:
+            - db
+    db:
+        image: mysql:5.7
+        restart: always
+        environment:
+            - "MYSQL_DATABASE=${DB_HOST}"
+            - "MYSQL_USER=${DB_USER}"
+            - "MYSQL_PASSWORD=${DB_PASSWORD}"
+            - "MYSQL_ROOT_PASSWORD=${DB_PASSWORD}"
+        ports:
+            - '3306:3306'
+        expose:
+            - '3306'
+        volumes:
+            - my-db:/var/lib/mysql
+            
+volumes:
+    my-db:
