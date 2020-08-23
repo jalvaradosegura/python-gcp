@@ -13,6 +13,7 @@ drf-yasg = "==1.17.1"
 pyjwt = "==1.7.1"
 coverage = "==5.2.1"
 coveralls = "*"
+mysqlclient = "==2.0.1"
 
 [requires]
 python_version = "3.8"
