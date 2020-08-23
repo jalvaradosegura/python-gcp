@@ -30,7 +30,7 @@ You must create 2 files inside the GCE instance:
 # Django
 SECRET_KEY=l=<DJANGO_KEY>
 DEBUG=1
-ALLOWED_HOSTS=127.0.0.1,<YOUR_GCE_INSTANCE_IP>
+ALLOWED_HOSTS=127.0.0.1,<YOUR_GCE_INSTANCE_EXTERNAL_IP>
 
 # Django Testing
 TOKEN_TESTING=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzb21lIjoicGF5bG9hZCJ9.Joh1R2dYzkRvDkqv3sygm5YyK8Gi4ShZqbhK2gxcs2U
@@ -51,7 +51,7 @@ COVERALLS_REPO_TOKEN=<COVERALLS_TOKEN>
 yes Y | sh setup.sh
 ```
 4. Wait for the installation and *voilà*. Now you have 2 containers running within your GCE instance. One is running the API and the other a MySQL database.
-5. Now if you want to try the endpoints you just have to use the following link: <YOUR_GCE_INSTANCE_IP>:8000/
+5. Now if you want to try the endpoints you just have to use the following link: <YOUR_GCE_INSTANCE_EXTERNAL_IP>:8000/
 
 >💡 This setup is not suitable for a real production app. For a real production app you should consider changing the "command" within the docker-compose file to "command: gunicorn project.wsgi -b 0.0.0.0:8000", within other changes. Check the [Django deployment checklist](https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/) to set up your project correctly
 
