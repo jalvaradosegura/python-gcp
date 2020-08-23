@@ -56,7 +56,11 @@ yes Y | sh setup.sh
 cd python-gcp/
 sudo docker-compose exec web python manage.py migrate
 ```
-6. And voilà! Now if you want to try the endpoints you just have to hit the following link: <YOUR_GCE_INSTANCE_EXTERNAL_IP>:8000/
+6. And voilà! Now if you want to try the endpoints you just have to hit the following link: <YOUR_GCE_INSTANCE_EXTERNAL_IP>:8000/. If for any reason you not able to hit the url, try resetting the containers:
+```sh
+sudo docker-compose down
+sudo docker-compose up -d
+```
 
 >💡 This setup is not suitable for a real production app. For a real production app you should consider changing the "command" within the docker-compose file to "command: gunicorn project.wsgi -b 0.0.0.0:8000", within other changes. Check the [Django deployment checklist](https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/) to set up your project correctly
 
