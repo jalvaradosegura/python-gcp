@@ -1,3 +1,5 @@
+import os
+
 from django.utils.encoding import force_text
 
 from rest_framework.exceptions import APIException
@@ -21,7 +23,7 @@ class CustomValidation(APIException):
 def validate_jwt_token(request):
     token = request.META.get('HTTP_AUTHORIZATION', '').replace('Bearer ', '')
     try:
-        jwt.decode(token, 'secret', algorithms=['HS256'])
+        jwt.decode(token, os.environ.get('JWT_SECRET'), algorithms=['HS256'])
     except:
         raise CustomValidation(
                 'Invalid token',

@@ -1,4 +1,5 @@
 import uuid
+import os
 
 from rest_framework import generics, status
 from rest_framework.response import Response
@@ -91,6 +92,6 @@ class VaccinationDetailPutDelete(generics.RetrieveUpdateDestroyAPIView):
 class GetToken(generics.GenericAPIView):
     def get(self, request):
         token = jwt.encode(
-            {'some': str(uuid.uuid4())}, 'secret', algorithm='HS256'
+            {'some': str(uuid.uuid4())}, os.environ.get('JWT_SECRET'), algorithm='HS256'
         )
         return Response({'token': token}, status.HTTP_200_OK)

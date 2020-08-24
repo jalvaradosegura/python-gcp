@@ -7,3 +7,4 @@ __pycache__/
 docker-compose-yml.backup_with_env
 docker-compose-yml.backup2
 htmlcov
+.DS_Store

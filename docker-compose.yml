@@ -14,6 +14,7 @@ services:
             - "DB-PASSWORD=${DB_PASSWORD}"
             - "DB-PORT=${DB_PORT}"
             - "ALLOWED_HOSTS=${ALLOWED_HOSTS}"
+            - "JWT_SECRET=${JWT_SECRET}"
         volumes:
             - .:/code
         ports:
