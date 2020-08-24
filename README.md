@@ -1,11 +1,12 @@
 [![Coverage Status](https://coveralls.io/repos/github/jalvaradosegura/python-gcp/badge.svg?branch=master)](https://coveralls.io/github/jalvaradosegura/python-gcp?branch=master)
 # API for Vaccinations and Drugs 💉
+![Example](https://media.giphy.com/media/lRWvlY3ARQRBgfiGTm/giphy.gif)
 
 # Overview 👀
 * API to get, put, delete and post vaccinations and drugs
 * API protected with a JWT
 * It has 40+ unit tests
-* It has Swagger
+* It has Swagger (at the website’s root)
 * Uses Docker 🐳
 * Deployed on Google Compute Engine
 * It has a Makefile to make life easier and it's also considered a good practice
@@ -56,7 +57,11 @@ yes Y | sh setup.sh
 cd python-gcp/
 sudo docker-compose exec web python manage.py migrate
 ```
-6. And voilà! Now if you want to try the endpoints you just have to hit the following link: <YOUR_GCE_INSTANCE_EXTERNAL_IP>:8000/
+6. And voilà! Now if you want to try the endpoints you just have to hit the following link: <YOUR_GCE_INSTANCE_EXTERNAL_IP>:8000/. If for any reason you not able to hit the url, try resetting the containers:
+```sh
+sudo docker-compose down
+sudo docker-compose up -d
+```
 
 >💡 This setup is not suitable for a real production app. For a real production app you should consider changing the "command" within the docker-compose file to "command: gunicorn project.wsgi -b 0.0.0.0:8000", within other changes. Check the [Django deployment checklist](https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/) to set up your project correctly
 
